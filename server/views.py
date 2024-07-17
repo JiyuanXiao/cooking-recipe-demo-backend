@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Recipe, Ingredient, Instruction
 from .serializers import RecipeSerializer, IngredientSerializer, InstructionSerializer
+from .utils import AddDataList, AddData
 
 # Create your views here.
 def index(request):
@@ -17,11 +18,7 @@ class RecipeList(APIView):
         return Response(serializer.data)
     
     def post(self, request):
-        serializer = RecipeSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return AddData(request.data, RecipeSerializer)
     
 class RecipeDetail(APIView):
     def get_object(self, pk):
@@ -57,43 +54,13 @@ class RecipeDetail(APIView):
 class InstructionList(APIView):
     def post(self, request):
         if isinstance(request.data, list):
-            serializer_list = []
-            saved_objects = []
-            for instruction in request.data:
-                serializer = InstructionSerializer(data=instruction)
-                if not serializer.is_valid():
-                    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-                serializer_list.append(serializer)
-            
-            for serializer in serializer_list:
-                serializer.save()
-                saved_objects.append(serializer.data)
-            return Response(saved_objects, status=status.HTTP_201_CREATED)
+            return AddDataList(request.data, InstructionSerializer)
         else:
-            serializer = InstructionSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return AddData(request.data, InstructionSerializer)
     
 class IngredientList(APIView):
     def post(self, request):
         if isinstance(request.data, list):
-            serializer_list = []
-            saved_objects = []
-            for instruction in request.data:
-                serializer = IngredientSerializer(data=instruction)
-                if not serializer.is_valid():
-                    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-                serializer_list.append(serializer)
-            
-            for serializer in serializer_list:
-                serializer.save()
-                saved_objects.append(serializer.data)
-            return Response(saved_objects, status=status.HTTP_201_CREATED)
+            return AddDataList(request.data, IngredientSerializer)
         else:
-            serializer = IngredientSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return AddData(request.data, IngredientSerializer)

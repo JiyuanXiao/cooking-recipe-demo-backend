@@ -30,19 +30,19 @@ class Recipe(models.Model):
 
 class Ingredient(models.Model):
     UNIT_CHOISES = [
-        ("TEASPOON", "tsp"),
-        ("TABLESPOON", "tbsp"),
-        ("CUP", "cup"),
-        ("PINT", "pt"),
-        ("QUART", "quart"),
-        ("GALLON", "gallon"),
-        ("OUNCE", "oz"),
-        ("FLUID OUNCE", "fl oz"),
-        ("POUND", "lb"),
-        ("MILLILITER", "mL"),
-        ("LITER", "L"),
-        ("GRAM", "g"),
-        ("KILOGRAM", "kg"),
+        ("tsp", "tsp"),
+        ("tbsp", "tbsp"),
+        ("cup", "cup"),
+        ("pt", "pt"),
+        ("quart", "quart"),
+        ("gallon", "gallon"),
+        ("oz", "oz"),
+        ("fl oz", "fl oz"),
+        ("lb", "lb"),
+        ("mL", "mL"),
+        ("L", "L"),
+        ("g", "g"),
+        ("kg", "kg"),
     ]
     ingredient = models.CharField(max_length=100)
     quantity = models.PositiveSmallIntegerField(default=1)
